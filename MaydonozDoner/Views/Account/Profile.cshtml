@@ -1,0 +1,305 @@
+@model MaydonozDoner.Controllers.ProfileViewModel
+
+@{
+    ViewData["Title"] = "Profil Bilgilerim";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<style>
+    body {
+        background-color: #121620;
+        color: #f1f3f5;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    h2, h3 {
+        font-weight: 800;
+        color: #ffc107;
+        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-custom {
+        background: #1a1f2c;
+        border: 1px solid #2d3548;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .card-header-yellow {
+        background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+        color: #121620;
+        font-weight: 700;
+        font-size: 1.15rem;
+        padding: 15px 20px;
+        border-bottom: 1px solid #2d3548;
+    }
+
+    .card-header-green {
+        background: linear-gradient(135deg, #2b9348 0%, #155d27 100%);
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 1.15rem;
+        padding: 15px 20px;
+        border-bottom: 1px solid #2d3548;
+    }
+
+    .form-label {
+        color: #adb5bd;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        background-color: #232a3b;
+        border: 1px solid #3d4863;
+        color: #ffffff;
+        border-radius: 10px;
+        padding: 10px 15px;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        background-color: #232a3b;
+        border-color: #ffc107;
+        box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.25);
+        color: #ffffff;
+    }
+
+    .form-control[readonly], .form-control:disabled {
+        background-color: #161a24;
+        border-color: #232a3b;
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    .btn-update {
+        background: linear-gradient(135deg, #2b9348 0%, #1a7431 100%);
+        border: none;
+        color: #ffffff;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 12px 24px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(43, 147, 72, 0.3);
+    }
+
+    .btn-update:hover {
+        background: linear-gradient(135deg, #3aa859 0%, #20873c 100%);
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(43, 147, 72, 0.5);
+    }
+
+    .credit-card-mockup {
+        background: linear-gradient(135deg, #2c2f3f 0%, #1a1b24 100%);
+        border: 1px solid #ffc107;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        color: #ffffff;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .credit-card-mockup::before {
+        content: '';
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        background: rgba(255, 193, 7, 0.03);
+        border-radius: 50%;
+        top: -50px;
+        right: -50px;
+    }
+
+    .card-chip {
+        width: 45px;
+        height: 35px;
+        background: linear-gradient(135deg, #ffd700 0%, #b8860b 100%);
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+
+    .card-number-display {
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #ffc107;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-holder-display {
+        text-transform: uppercase;
+        font-size: 0.95rem;
+        letter-spacing: 1px;
+    }
+
+    .card-expiry-display {
+        font-size: 0.95rem;
+    }
+</style>
+
+<div class="container mt-4 mb-5">
+    <div class="mb-4">
+        <h2>👤 Profil Bilgilerim</h2>
+        <p class="text-muted">Üyelik bilgileriniz, teslimat adresiniz ve kayıtlı ödeme yöntemleriniz</p>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show bg-success text-white border-0 rounded-3 mb-4" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <form asp-action="Profile" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card-custom">
+                    <div class="card-header-green">
+                        <i class="bi bi-person-badge-fill me-2"></i> Kişisel Bilgiler & İletişim
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Username" class="form-label"></label>
+                                <input asp-for="Username" class="form-control" readonly />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Email" class="form-label"></label>
+                                <input asp-for="Email" class="form-control" readonly />
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label asp-for="PhoneNumber" class="form-label">Telefon Numarası</label>
+                                <input asp-for="PhoneNumber" class="form-control" placeholder="Örn: 0555 123 45 67" required oninput="this.value = this.value.replace(/[^0-9\s\-\(\)\+]/g, '')" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label asp-for="Address" class="form-label">Teslimat Adresiniz</label>
+                                <textarea asp-for="Address" class="form-control" rows="4" placeholder="Siparişlerinizin teslim edileceği açık adresinizi yazın..."></textarea>
+                                <span asp-validation-for="Address" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-custom">
+                    <div class="card-header-yellow">
+                        <i class="bi bi-credit-card-fill me-2"></i> Ödeme Bilgileri (Kayıtlı Kartım)
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="CardNumber" class="form-label">Kart Numarası</label>
+                                <input asp-for="CardNumber" id="cardNumberInput" class="form-control" placeholder="0000 0000 0000 0000" maxlength="25" oninput="this.value = this.value.replace(/[^0-9\s\-]/g, '')" />
+                                <span asp-validation-for="CardNumber" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="CardHolderName" class="form-label">Kart Üzerindeki İsim</label>
+                                <input asp-for="CardHolderName" id="cardNameInput" class="form-control" placeholder="Ad Soyad" />
+                                <span asp-validation-for="CardHolderName" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="CardExpiry" class="form-label">Son Kullanma Tarihi (AA/YY)</label>
+                                <input asp-for="CardExpiry" id="cardExpiryInput" class="form-control" placeholder="Örn: 08/29" maxlength="5" />
+                                <span asp-validation-for="CardExpiry" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="CardCvv" class="form-label">CVV Güvenlik Kodu (3 Rakam)</label>
+                                <input asp-for="CardCvv" id="cardCvvInput" class="form-control" placeholder="123" maxlength="3" oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+                                <span asp-validation-for="CardCvv" class="text-danger small"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-end mb-4">
+                    <button type="submit" class="btn btn-update px-5">Profil Bilgilerini Kaydet</button>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="sticky-top" style="top: 100px; z-index: 10;">
+                    <h5 class="text-muted mb-3"><i class="bi bi-eye-fill me-1"></i> Kart Önizleme</h5>
+                    
+                    <div class="credit-card-mockup">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="fw-bold text-muted small">KAYITLI KART</span>
+                            <i class="bi bi-wallet2 fs-4 text-warning"></i>
+                        </div>
+                        <div class="card-chip"></div>
+                        
+                        <div class="card-number-display" id="cardNumberDisplay">
+                            •••• •••• •••• ••••
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-end mt-4">
+                            <div>
+                                <div class="text-muted" style="font-size: 0.65rem;">KART SAHİBİ</div>
+                                <div class="card-holder-display" id="cardHolderDisplay">İSİM SOYİSİM</div>
+                            </div>
+                            <div class="text-end">
+                                <div class="text-muted" style="font-size: 0.65rem;">S.K.T</div>
+                                <div class="card-expiry-display" id="cardExpiryDisplay">AA/YY</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        $(document).ready(function () {
+            updateCardMock();
+
+            $('#cardNumberInput').on('input', updateCardMock);
+            $('#cardNameInput').on('input', updateCardMock);
+            $('#cardExpiryInput').on('input', updateCardMock);
+
+            function updateCardMock() {
+                var cardNo = $('#cardNumberInput').val();
+                var cardName = $('#cardNameInput').val();
+                var cardExpiry = $('#cardExpiryInput').val();
+
+                if (cardNo) {
+                    var cleanCardNo = cardNo.replace(/[^0-9]/g, '');
+                    var formatted = cleanCardNo.match(/.{1,4}/g)?.join(' ') || cleanCardNo;
+                    while (formatted.length < 19) {
+                        var len = formatted.length;
+                        if (len === 4 || len === 9 || len === 14) formatted += ' ';
+                        else formatted += '•';
+                    }
+                    $('#cardNumberDisplay').text(formatted);
+                } else {
+                    $('#cardNumberDisplay').text('•••• •••• •••• ••••');
+                }
+
+                if (cardName) {
+                    $('#cardHolderDisplay').text(cardName);
+                } else {
+                    $('#cardHolderDisplay').text('İSİM SOYİSİM');
+                }
+
+                if (cardExpiry) {
+                    $('#cardExpiryDisplay').text(cardExpiry);
+                } else {
+                    $('#cardExpiryDisplay').text('AA/YY');
+                }
+            }
+        });
+    </script>
+}

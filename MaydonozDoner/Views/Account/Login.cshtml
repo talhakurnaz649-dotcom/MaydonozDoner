@@ -1,0 +1,152 @@
+@model MaydonozDoner.Controllers.LoginViewModel
+
+@{
+    ViewData["Title"] = "Giriş Yap";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        background-color: #121620;
+        color: #f1f3f5;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    .login-container {
+        max-width: 450px;
+        margin: 60px auto;
+    }
+
+    .card-login {
+        background: #1a1f2c;
+        border: 1px solid #2d3548;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+    }
+
+    .card-header-yellow {
+        background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+        color: #121620;
+        font-weight: 800;
+        font-size: 1.3rem;
+        text-align: center;
+        padding: 20px;
+        letter-spacing: 0.5px;
+        border-bottom: 1px solid #2d3548;
+    }
+
+    .form-control {
+        background-color: #232a3b;
+        border: 1px solid #3d4863;
+        color: #ffffff;
+        border-radius: 10px;
+        padding: 12px 15px;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        background-color: #232a3b;
+        border-color: #ffc107;
+        box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.25);
+        color: #ffffff;
+    }
+
+    .btn-login {
+        background: linear-gradient(135deg, #2b9348 0%, #1a7431 100%);
+        border: none;
+        color: #ffffff;
+        font-weight: 700;
+        border-radius: 10px;
+        padding: 12px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(43, 147, 72, 0.3);
+    }
+
+    .btn-login:hover {
+        background: linear-gradient(135deg, #3aa859 0%, #20873c 100%);
+        transform: scale(1.02);
+        box-shadow: 0 6px 20px rgba(43, 147, 72, 0.5);
+    }
+
+    .form-label {
+        color: #adb5bd;
+        font-weight: 500;
+    }
+
+    .text-link {
+        color: #ffc107;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
+    }
+
+    .text-link:hover {
+        color: #2b9348;
+    }
+
+    .validation-summary-errors {
+        background-color: rgba(217, 4, 41, 0.1);
+        border: 1px solid #d90429;
+        color: #ef233c;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+    }
+
+    .validation-summary-errors ul {
+        margin-bottom: 0;
+        padding-left: 20px;
+    }
+</style>
+
+<div class="login-container">
+    <div class="card card-login">
+        <div class="card-header-yellow">
+            🌿 MAYDONOZ DÖNER GİRİŞ
+        </div>
+        <div class="card-body p-4">
+            
+            <form asp-action="Login" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Username" class="form-label">Kullanıcı Adı veya E-posta</label>
+                    <input asp-for="Username" class="form-control" placeholder="admin veya e-posta girin" required autofocus />
+                    <span asp-validation-for="Username" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">Şifre</label>
+                    <input asp-for="Password" class="form-control" type="password" placeholder="Şifrenizi girin" required />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4 form-check">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label text-muted">Beni Hatırla</label>
+                </div>
+
+                <button type="submit" class="btn btn-login w-100 mb-3">Sisteme Giriş Yap</button>
+
+                <div class="text-center text-muted small">
+                    Henüz bir hesabınız yok mu? <a asp-action="Register" class="text-link">Kayıt Olun</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    
+    <div class="card mt-3 bg-secondary text-white text-center p-3 border-0 rounded-3">
+        <small class="fw-bold text-warning">🔑 Hızlı Test Yönetici Girişi:</small>
+        <small class="d-block mt-1">Kullanıcı Adı: <span class="badge bg-dark">admin</span> | Şifre: <span class="badge bg-dark">1234</span></small>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

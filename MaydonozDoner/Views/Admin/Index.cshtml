@@ -1,0 +1,321 @@
+@using System.Dynamic
+@model dynamic
+
+@{
+    ViewData["Title"] = "Yönetici Paneli";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<style>
+    body {
+        background-color: #121620;
+        color: #f1f3f5;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    h2, h3 {
+        font-weight: 800;
+        color: #ffc107;
+        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .stat-card {
+        background: #1a1f2c;
+        border: 1px solid #2d3548;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        padding: 25px;
+        display: flex;
+        align-items: center;
+        transition: transform 0.3s ease;
+        margin-bottom: 20px;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        border-color: #ffc107;
+    }
+
+    .stat-icon {
+        font-size: 2.5rem;
+        margin-right: 20px;
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .icon-yellow {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+    }
+
+    .icon-green {
+        background-color: rgba(43, 147, 72, 0.1);
+        color: #2b9348;
+    }
+
+    .icon-blue {
+        background-color: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+    }
+
+    .icon-cyan {
+        background-color: rgba(13, 202, 240, 0.1);
+        color: #0dcaf0;
+    }
+
+    .stat-title {
+        font-weight: 500;
+        color: #adb5bd;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .stat-value {
+        font-weight: 800;
+        font-size: 1.6rem;
+        color: #ffffff;
+    }
+
+    .card-custom {
+        background: #1a1f2c;
+        border: 1px solid #2d3548;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        margin-bottom: 30px;
+        overflow: hidden;
+    }
+
+    .card-header-yellow {
+        background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+        color: #121620;
+        font-weight: 700;
+        font-size: 1.2rem;
+        padding: 15px 20px;
+        border-bottom: 1px solid #2d3548;
+    }
+
+    .table {
+        color: #e9ecef;
+        margin-bottom: 0;
+    }
+
+    .table thead th {
+        background-color: #232a3b;
+        color: #ffc107;
+        font-weight: 600;
+        border-bottom: 2px solid #3d4863;
+        padding: 15px;
+    }
+
+    .table tbody td {
+        padding: 15px;
+        border-bottom: 1px solid #2d3548;
+        vertical-align: middle;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #1e2535;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #283147;
+    }
+
+    .revenue-chart-box {
+        background-color: #232a3b;
+        border-radius: 12px;
+        padding: 30px;
+        text-align: center;
+        border: 1px dashed #3d4863;
+        color: #adb5bd;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>📊 Maydonoz Döner Yönetici Paneli</h2>
+            <p class="text-muted">Sistem genel istatistikleri, gelir durumları ve üye yönetimi</p>
+        </div>
+        <div class="badge bg-danger p-2 fs-6">
+            <i class="bi bi-shield-lock-fill me-1"></i> Tam Yetkili Erişim (Admin)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon icon-green">
+                    <i class="bi bi-cash-stack"></i>
+                </div>
+                <div>
+                    <div class="stat-title">Aylık Ciro (Brüt)</div>
+                    <div class="stat-value text-success">@Model.MonthlyRevenue.ToString("C2")</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon icon-yellow">
+                    <i class="bi bi-cart-check-fill"></i>
+                </div>
+                <div>
+                    <div class="stat-title">Toplam Sipariş</div>
+                    <div class="stat-value text-warning">@Model.TotalOrders.ToString("N0") adet</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon icon-blue">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div>
+                    <div class="stat-title">Kayıtlı Kullanıcı</div>
+                    <div class="stat-value text-primary">@Model.UserCount.ToString("N0") kişi</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon icon-cyan">
+                    <i class="bi bi-shop"></i>
+                </div>
+                <div>
+                    <div class="stat-title">Aktif Franchise Şube</div>
+                    <div class="stat-value text-info">@Model.ActiveBranches.ToString("N0") şube</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-title w-100">
+                    <i class="bi bi-person-workspace me-2 text-warning"></i> Aktif Sistem Çalışanı: 
+                    <span class="float-end text-white fw-bold fs-5">@Model.EmployeeCount</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-title w-100">
+                    <i class="bi bi-egg-fried me-2 text-success"></i> Menüdeki Yemek Sayısı: 
+                    <span class="float-end text-white fw-bold fs-5">@Model.ProductCount</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="stat-card">
+                <div class="stat-title w-100">
+                    <i class="bi bi-award-fill me-2 text-info"></i> En Çok Satan Menü: 
+                    <span class="float-end text-info fw-bold fs-6">@Model.BestSeller</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-custom mt-4">
+        <div class="card-header-yellow">
+            <i class="bi bi-graph-up-arrow me-2"></i> Şube Satış & Gelir Durumu Analizi
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="revenue-chart-box">
+                        <i class="bi bi-bar-chart-line-fill text-warning fs-1 mb-3 d-block"></i>
+                        <h5>Haftalık Satış Grafiği (Simüle Edilen)</h5>
+                        <p class="small text-muted">Grafik Yükleniyor... (Pazartesi: %14, Salı: %18, Çarşamba: %22, Perşembe: %20, Cuma: %35, Cumartesi: %42, Pazar: %45)</p>
+                        
+                        <div class="d-flex justify-content-between align-items-end mt-4" style="height: 120px; max-width: 500px; margin: 0 auto;">
+                            <div class="bg-success rounded" style="width: 35px; height: 30%;"></div>
+                            <div class="bg-success rounded" style="width: 35px; height: 45%;"></div>
+                            <div class="bg-success rounded" style="width: 35px; height: 55%;"></div>
+                            <div class="bg-success rounded" style="width: 35px; height: 50%;"></div>
+                            <div class="bg-warning rounded" style="width: 35px; height: 80%;"></div>
+                            <div class="bg-warning rounded" style="width: 35px; height: 95%;"></div>
+                            <div class="bg-warning rounded" style="width: 35px; height: 100%;"></div>
+                        </div>
+                        <div class="d-flex justify-content-between text-muted small mt-2" style="max-width: 500px; margin: 0 auto;">
+                            <span>Pzt</span><span>Sal</span><span>Çar</span><span>Per</span><span>Cum</span><span>Cmt</span><span>Paz</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card bg-dark border-0 p-3 h-100">
+                        <h6 class="text-warning fw-bold mb-3">Şube Dağılım Gelir Oranı</h6>
+                        <ul class="list-group list-group-flush bg-transparent">
+                            <li class="list-group-item bg-transparent text-white d-flex justify-content-between border-secondary small">
+                                <span>1. İstanbul Merkez</span>
+                                <span class="text-success fw-bold">%42.5</span>
+                            </li>
+                            <li class="list-group-item bg-transparent text-white d-flex justify-content-between border-secondary small">
+                                <span>2. Ankara Kızılay</span>
+                                <span class="text-success fw-bold">%18.2</span>
+                            </li>
+                            <li class="list-group-item bg-transparent text-white d-flex justify-content-between border-secondary small">
+                                <span>3. İzmir Bornova</span>
+                                <span class="text-success fw-bold">%15.4</span>
+                            </li>
+                            <li class="list-group-item bg-transparent text-white d-flex justify-content-between border-secondary small">
+                                <span>4. Bursa Nilüfer</span>
+                                <span class="text-success fw-bold">%12.1</span>
+                            </li>
+                            <li class="list-group-item bg-transparent text-white d-flex justify-content-between border-0 small">
+                                <span>5. Diğer Şubeler</span>
+                                <span class="text-success fw-bold">%11.8</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-custom mt-4 mb-5">
+        <div class="card-header-yellow">
+            <i class="bi bi-people-fill me-2"></i> Sistem Üyeleri & Yetkileri
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>ID (Key)</th>
+                        <th>Kullanıcı Adı</th>
+                        <th>E-posta</th>
+                        <th>Kullanıcı Rolü</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td class="text-muted small">@user.Id</td>
+                            <td class="fw-bold">@user.Username</td>
+                            <td>@user.Email</td>
+                            <td>
+                                @if (user.Role.Contains("Admin"))
+                                {
+                                    <span class="badge bg-danger">Yönetici (Admin)</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary">Normal Müşteri (User)</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

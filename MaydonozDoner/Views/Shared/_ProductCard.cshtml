@@ -1,0 +1,26 @@
+@model MaydonozDoner.Models.Product
+
+<div class="product-card position-relative">
+    <span class="position-absolute badge m-3 @(Model.Category == "Döner" ? "bg-success text-white" : Model.Category == "Sos" ? "bg-warning text-dark" : "bg-info text-dark")" style="z-index: 2; font-weight: 700; border-radius: 8px; font-size: 0.75rem; top: 0; left: 0;">
+        @Model.Category
+    </span>
+    
+    <img src="@Model.ImageUrl" alt="@Model.Name" class="product-image" onerror="this.src='https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500'" />
+    
+    <div class="product-body d-flex flex-column flex-grow-1">
+        <h5 class="product-title text-white mt-2">@Model.Name</h5>
+        <p class="product-desc text-muted small" style="min-height: 48px;">@Model.Description</p>
+        
+        <div class="product-footer mt-auto pt-2 border-top border-secondary d-flex justify-content-between align-items-center">
+            <span class="product-price fw-bold text-warning fs-5">@Model.Price.ToString("F2") TL</span>
+            
+            <button class="btn btn-order btn-add-to-cart" 
+                    data-id="@Model.Id" 
+                    data-name="@Model.Name" 
+                    data-price="@Model.Price" 
+                    data-image="@Model.ImageUrl">
+                Sepete Ekle
+            </button>
+        </div>
+    </div>
+</div>

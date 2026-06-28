@@ -1,0 +1,281 @@
+@{
+    ViewData["Title"] = "Çalışan Yönetimi (Maydonoz Döner)";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        background-color: #121620; 
+        color: #f1f3f5;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    h2 {
+        font-weight: 700;
+        color: #ffc107; 
+        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .card {
+        background: #1a1f2c; 
+        border: 1px solid #2d3548;
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+    }
+
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-header {
+        font-weight: 600;
+        font-size: 1.1rem;
+        letter-spacing: 0.5px;
+        border-bottom: 1px solid #2d3548;
+        padding: 15px 20px;
+    }
+
+    .header-yellow {
+        background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+        color: #121620;
+        font-weight: 700;
+    }
+
+    .header-green {
+        background: linear-gradient(135deg, #2b9348 0%, #155d27 100%);
+        color: #ffffff;
+        font-weight: 700;
+    }
+
+    .form-label {
+        color: #adb5bd;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        background-color: #232a3b;
+        border: 1px solid #3d4863;
+        color: #ffffff;
+        border-radius: 10px;
+        padding: 10px 15px;
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        background-color: #232a3b;
+        border-color: #ffc107; 
+        box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.25);
+        color: #ffffff;
+    }
+
+    .btn-maydonoz-green {
+        background: linear-gradient(135deg, #2b9348 0%, #1a7431 100%);
+        border: none;
+        color: #ffffff;
+        font-weight: 600;
+        border-radius: 10px;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(43, 147, 72, 0.3);
+    }
+
+    .btn-maydonoz-green:hover {
+        background: linear-gradient(135deg, #3aa859 0%, #20873c 100%);
+        transform: scale(1.03);
+        box-shadow: 0 6px 20px rgba(43, 147, 72, 0.5);
+        color: #ffffff;
+    }
+
+    .btn-delete {
+        background: linear-gradient(135deg, #d90429 0%, #b3001e 100%);
+        border: none;
+        color: white;
+        border-radius: 8px;
+        font-weight: 500;
+        padding: 6px 12px;
+        transition: all 0.2s ease;
+        box-shadow: 0 3px 10px rgba(217, 4, 41, 0.2);
+    }
+
+    .btn-delete:hover {
+        background: linear-gradient(135deg, #ef233c 0%, #d90429 100%);
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(217, 4, 41, 0.4);
+        color: white;
+    }
+
+    .table {
+        color: #e9ecef;
+        margin-bottom: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    .table thead th {
+        background-color: #232a3b;
+        color: #ffc107; 
+        font-weight: 600;
+        border-bottom: 2px solid #3d4863;
+        padding: 15px;
+    }
+
+    .table tbody td {
+        padding: 15px;
+        border-bottom: 1px solid #2d3548;
+        vertical-align: middle;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #1e2535;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #283147;
+        transition: background-color 0.2s ease;
+    }
+
+    .alert-custom {
+        background-color: #232a3b;
+        border-left: 5px solid #ffc107;
+        border-radius: 8px;
+        color: #ffc107;
+        padding: 15px;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Maydonoz Döner Yönetim Sistemi</h2>
+        </div>
+        <div class="badge bg-warning text-dark p-2 fs-6">Aktif Şube: Merkez</div>
+    </div>
+    
+    <div class="card mb-5">
+        <div class="card-header header-yellow">
+            <i class="bi bi-person-plus-fill me-2"></i> Yeni Çalışan Ekle
+        </div>
+        <div class="card-body">
+            <form id="employeeForm">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Çalışan Adı Soyadı</label>
+                        <input type="text" id="empName" class="form-control" placeholder="Örn: Ahmet Yılmaz" required />
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Şehir</label>
+                        <input type="text" id="empCity" class="form-control" placeholder="Örn: İstanbul" required />
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Eyalet/Bölge</label>
+                        <input type="text" id="empState" class="form-control" placeholder="Örn: Başakşehir" required />
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end mb-3">
+                        <button type="submit" class="btn btn-maydonoz-green w-100">Kaydet</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header header-green">
+            <i class="bi bi-people-fill me-2"></i> Çalışan Listesi
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Ad Soyadı</th>
+                        <th>Şehir</th>
+                        <th>Eyalet</th>
+                        <th class="text-end">İşlemler</th>
+                    </tr>
+                </thead>
+                <tbody id="employeeTableBody">
+                    <tr>
+                        <td colspan="5" class="text-center text-muted p-4">Veriler yükleniyor...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            loadEmployees();
+
+            function loadEmployees() {
+                $.get('/Employee/GetEmployees', function (data) {
+                    var rows = '';
+                    if (data.length === 0) {
+                        rows = '<tr><td colspan="5" class="text-center text-muted p-4">Kayıtlı çalışan bulunamadı.</td></tr>';
+                    } else {
+                        $.each(data, function (index, emp) {
+                            rows += `<tr>
+                                <td class="fw-bold text-warning">#${emp.id}</td>
+                                <td class="fw-semibold">${emp.name}</td>
+                                <td>${emp.city}</td>
+                                <td><span class="badge bg-secondary">${emp.state}</span></td>
+                                <td class="text-end">
+                                    <button class="btn btn-delete btn-sm delete-btn" data-id="${emp.id}">Sil</button>
+                                </td>
+                            </tr>`;
+                        });
+                    }
+                    $('#employeeTableBody').html(rows);
+                });
+            }
+
+            $('#employeeForm').submit(function (e) {
+                e.preventDefault(); 
+
+                var employeeData = {
+                    name: $('#empName').val(),
+                    city: $('#empCity').val(),
+                    state: $('#empState').val()
+                };
+
+                $.ajax({
+                    url: '/Employee/CreateEmployee',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(employeeData),
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            $('#employeeForm')[0].reset(); 
+                            loadEmployees(); 
+                        } else {
+                            alert(response.message);
+                        }
+                    }
+                });
+            });
+
+            $(document).on('click', '.delete-btn', function () {
+                var empId = $(this).data('id');
+                if (confirm('Bu çalışanı silmek istediğinize emin misiniz?')) {
+                    $.post('/Employee/DeleteEmployee', { id: empId }, function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            loadEmployees(); 
+                        } else {
+                            alert(response.message);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

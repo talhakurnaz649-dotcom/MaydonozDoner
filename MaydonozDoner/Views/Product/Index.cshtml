@@ -1,0 +1,245 @@
+@model IEnumerable<MaydonozDoner.Models.Product>
+
+@{
+    ViewData["Title"] = "Döner Menümüz";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        background-color: #121620;
+        color: #f1f3f5;
+        font-family: 'Outfit', sans-serif;
+    }
+
+    h2 {
+        font-weight: 800;
+        color: #ffc107;
+        text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .product-card {
+        background: #1a1f2c;
+        border: 1px solid #2d3548;
+        border-radius: 16px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        border-color: #ffc107;
+    }
+
+    .product-image {
+        height: 200px;
+        width: 100%;
+        object-fit: cover;
+        border-bottom: 1px solid #2d3548;
+        background-color: #232a3b;
+    }
+
+    .product-body {
+        padding: 20px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-title {
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: #ffffff;
+        margin-bottom: 10px;
+    }
+
+    .product-desc {
+        color: #adb5bd;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        flex-grow: 1;
+    }
+
+    .product-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+        padding-top: 15px;
+        border-top: 1px solid #2d3548;
+    }
+
+    .product-price {
+        font-weight: 800;
+        font-size: 1.4rem;
+        color: #ffc107;
+    }
+
+    .btn-order {
+        background: linear-gradient(135deg, #2b9348 0%, #1a7431 100%);
+        color: white;
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 8px 16px;
+        transition: all 0.2s ease;
+    }
+
+    .btn-order:hover {
+        background: linear-gradient(135deg, #3aa859 0%, #20873c 100%);
+        transform: scale(1.03);
+        color: white;
+    }
+
+    .menu-header-bar {
+        background: linear-gradient(90deg, #1a1f2c 0%, #252e3f 100%);
+        border-left: 5px solid #2b9348;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 40px;
+    }
+
+    .nav-pills .nav-link {
+        color: #adb5bd !important;
+        transition: all 0.2s ease;
+        border-radius: 50px;
+    }
+    .nav-pills .nav-link.active {
+        background: #ffc107 !important;
+        color: #121620 !important;
+        box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+    }
+    .nav-pills .nav-link:hover:not(.active) {
+        background-color: #232a3b;
+        color: #ffffff !important;
+    }
+</style>
+
+<div class="container mt-4">
+    
+    <div class="menu-header-bar d-flex justify-content-between align-items-center">
+        <div>
+            <h2>🌿 Maydonoz Döner Lezzet Menüsü</h2>
+            <p class="text-muted mb-0">Eşsiz soslu, taptaze and nefis ürünlerimiz</p>
+        </div>
+        <span class="badge bg-success p-2 fs-6">Sıcak Servis 🔥</span>
+    </div>
+
+    @{
+        var donerList = Model?.Where(p => p.Category == "Döner").ToList() ?? new List<MaydonozDoner.Models.Product>();
+        var sosList = Model?.Where(p => p.Category == "Sos").ToList() ?? new List<MaydonozDoner.Models.Product>();
+        var icecekList = Model?.Where(p => p.Category == "İçecek").ToList() ?? new List<MaydonozDoner.Models.Product>();
+    }
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+        <h4 class="text-warning fw-bold mb-0">Kategoriler</h4>
+        
+        <ul class="nav nav-pills" id="menuTabs" role="tablist" style="background-color: #1a1f2c; padding: 5px; border-radius: 50px; border: 1px solid #2d3548;">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active px-4 fw-bold" id="all-tab" data-bs-toggle="pill" data-bs-target="#all" type="button" role="tab" aria-selected="true">Hepsi</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link px-4 fw-bold" id="doner-tab" data-bs-toggle="pill" data-bs-target="#doner" type="button" role="tab" aria-selected="false">🌯 Dönerler</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link px-4 fw-bold" id="sos-tab" data-bs-toggle="pill" data-bs-target="#sos" type="button" role="tab" aria-selected="false">🌿 Soslar</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link px-4 fw-bold" id="icecek-tab" data-bs-toggle="pill" data-bs-target="#icecek" type="button" role="tab" aria-selected="false">🥤 İçecekler</button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content" id="menuTabsContent">
+        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var product in Model)
+                    {
+                        <div class="col">
+                            @await Html.PartialAsync("_ProductCard", product)
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12 text-center text-muted py-5">
+                        <p>Sistemde henüz gösterilecek ürün bulunmuyor.</p>
+                    </div>
+                }
+            </div>
+        </div>
+        
+        <!-- DÖNERLER -->
+        <div class="tab-pane fade" id="doner" role="tabpanel" aria-labelledby="doner-tab">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
+                @if (donerList.Any())
+                {
+                    @foreach (var product in donerList)
+                    {
+                        <div class="col">
+                            @await Html.PartialAsync("_ProductCard", product)
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12 text-center text-muted py-5">
+                        <p>Bu kategoride ürün bulunmuyor.</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- SOSLAR -->
+        <div class="tab-pane fade" id="sos" role="tabpanel" aria-labelledby="sos-tab">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
+                @if (sosList.Any())
+                {
+                    @foreach (var product in sosList)
+                    {
+                        <div class="col">
+                            @await Html.PartialAsync("_ProductCard", product)
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12 text-center text-muted py-5">
+                        <p>Bu kategoride ürün bulunmuyor.</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- İÇECEKLER -->
+        <div class="tab-pane fade" id="icecek" role="tabpanel" aria-labelledby="icecek-tab">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-5">
+                @if (icecekList.Any())
+                {
+                    @foreach (var product in icecekList)
+                    {
+                        <div class="col">
+                            @await Html.PartialAsync("_ProductCard", product)
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12 text-center text-muted py-5">
+                        <p>Bu kategoride ürün bulunmuyor.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
