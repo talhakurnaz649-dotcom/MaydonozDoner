@@ -1,18 +1,18 @@
-﻿# Maydonoz DÃ¶ner - Åube ve MenÃ¼ YÃ¶netim Sistemi
+# Maydonoz Döner - Şube ve Menü Yönetim Sistemi
 
-Maydonoz DÃ¶ner restoran zinciri iÃ§in tasarlanmÄ±ÅŸ, menÃ¼leri, ÅŸubeleri, kampanyalarÄ± ve mÃ¼ÅŸteri geri bildirimlerini dinamik olarak yÃ¶netebilen web sitesi uygulamasÄ±dÄ±r.
+Maydonoz Döner restoran zinciri için tasarlanmış, menüleri, şubeleri, kampanyaları ve müşteri geri bildirimlerini dinamik olarak yönetebilen web sitesi uygulamasıdır.
 
-## ğŸš€ KullanÄ±lan Teknolojiler
+## 🚀 Kullanılan Teknolojiler
 * **Mimari:** ASP.NET Core MVC
-* **Veri TabanÄ± / ORM:** Entity Framework Core (Code-First) & SQL Server
-* **TasarÄ±m:** HTML, CSS, JavaScript, Bootstrap, wwwroot statik varlÄ±klarÄ±
+* **Veri Tabanı / ORM:** Entity Framework Core (Code-First) & SQL Server
+* **Tasarım:** HTML, CSS, JavaScript, Bootstrap, wwwroot statik varlıkları
 
-## âœ¨ Ã–zellikler / YapÄ±
-* Admin paneli Ã¼zerinden menÃ¼ kalemleri ekleme, gÃ¼ncelleme ve fiyat belirleme.
-* Åubelerin listelenmesi ve ÅŸube detaylarÄ±nÄ±n dinamik yÃ¶netimi.
-* MÃ¼ÅŸterilerden gelen mesajlarÄ±n veritabanÄ±nda saklanmasÄ±.
+## ✨ Özellikler / Yapı
+* Admin paneli üzerinden menü kalemleri ekleme, güncelleme ve fiyat belirleme.
+* Şubelerin listelenmesi ve şube detaylarının dinamik yönetimi.
+* Müşterilerden gelen mesajların veritabanında saklanması.
 
-## ğŸ› ï¸ NasÄ±l Ã‡alÄ±ÅŸtÄ±rÄ±lÄ±r?
-1. `appsettings.json` iÃ§indeki Connection String bilgisini yerel SQL Server ayarlarÄ±nÄ±zla gÃ¼ncelleyin.
-2. `Update-Database` komutu ile veritabanÄ±nÄ± oluÅŸturun.
-3. Projeyi baÅŸlatÄ±n.
+## 🛠️ Nasıl Çalıştırılır?
+1. `appsettings.json` içindeki Connection String bilgisini yerel SQL Server ayarlarınızla güncelleyin.
+2. `Update-Database` komutu ile veritabanını oluşturun.
+3. Projeyi başlatın.
