@@ -1,4 +1,7 @@
-# Maydonoz Döner - Şube ve Menü Yönetim Sistemi
+﻿# Maydonoz Döner - Şube ve Menü Yönetim Sistemi
+
+![Proje ArayÃ¼zÃ¼](screenshot.jpg)
+
 
 Maydonoz Döner restoran zinciri için tasarlanmış, menüleri, şubeleri, kampanyaları ve müşteri geri bildirimlerini dinamik olarak yönetebilen web sitesi uygulamasıdır.
 
